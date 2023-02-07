@@ -1,5 +1,6 @@
 const { ABIReferenceType, Transaction } = require("algosdk");
 const algosdk = require("algosdk");
+import prompt from "prompt";
 const fs = require("fs");
 
 // create client object to connect to sandbox's algod client
@@ -33,6 +34,9 @@ let doOptInAndAssignRole = false;
 let buyToken = false;
 let payMerchant_ = false;
 let donor_transfer = false;
+
+console.log("ciao, ", prompt(""));
+
 /* 
 FUNZIONE PER GENERARE UN ACCOUNT -> IMPOSTARE TUTTO A FALSE E COMMENTARE MAIN
 function generateAlgorandKeyPair() {

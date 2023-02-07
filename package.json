@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "algosdk": "^2.1.0",
+    "prompt": "^1.3.0"
+  }
+}
