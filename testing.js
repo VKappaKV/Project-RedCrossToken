@@ -1,51 +1,46 @@
-const { ABIReferenceType, Transaction } = require("algosdk");
+// Import
+const { Transaction } = require("algosdk");
 const algosdk = require("algosdk");
 const fs = require("fs");
 
-// create client object to connect to sandbox's algod client
+// Create client object to connect to sandbox's algod client
 const algodToken =
   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 const algodServer = "http://localhost";
 const algodPort = 4001;
 const client = new algosdk.Algodv2(algodToken, algodServer, algodPort);
 
-// prende account creato nella sandbox e con degli algo
-const mnenonic =
-  "toe tilt protect lion quiz kind release retire fetch winter test inflict frozen one armor sleep join sick label all pause jacket achieve about topic";
+// The accounts below should be generated with the createAccount() function
+
+// Creator account
+const mnenonic = "...";
 const account = algosdk.mnemonicToSecretKey(mnenonic);
-const accAdd = "NNRL42PFVOBN65C7IGN22JNVES2OD3RHKRBFSNK4R7PRQ5XMLQDSR7EVKI";
+const accAdd = "...";
 
-//merchant and cri:
-const merchMnemonic =
-  "weasel lucky mercy clock hard gaze dignity doll tennis beauty puzzle bonus camera theme today grunt custom arm swallow skate grace castle tragic abandon assume";
+// Merchant account:
+const merchMnemonic = "...";
 const merchAccount = algosdk.mnemonicToSecretKey(merchMnemonic);
-const merchAddr = "7DJHHD773FYFEKLSZDGZFMQQUZLOANJZWXKLEEH2GYVS3N5KELLUA46KGI";
+const merchAddr = "...";
 
-// Variables
+// CRI account:
+const CriMnemonic = "...";
+const CriAccount = algosdk.mnemonicToSecretKey(CriMnemonic);
+const CriAddr = "...";
+
+// Utility variables
+
+// The following variables have to be changed after the deploy of the contract
 let smartContractAddress =
   "EXS3TYR5UJFMF2IIKBUFUTRMI7GNHALVRA7WATV2ONN4ROSOD6QDWWA7DM";
-
 let appId = 16;
 let assetId = 19;
 
-let doStartingTasks = false;
-let doOptInAndAssignRole = false;
-let buyToken = false;
-let payMerchant_ = false;
-let donor_transfer = false;
-
-console.log("ciao, ", prompt(""));
-
-/* 
-FUNZIONE PER GENERARE UN ACCOUNT -> IMPOSTARE TUTTO A FALSE E COMMENTARE MAIN
-function generateAlgorandKeyPair() {
-  let account = algosdk.generateAccount();
-  let passphrase = algosdk.secretKeyToMnemonic(account.sk);
-  console.log("My address: " + account.addr);
-  console.log("My passphrase: " + passphrase);
-}
-
-generateAlgorandKeyPair(); */
+// Steps:
+let doStartingTasks = false; //deploy, fund the contract and asset creation
+let doOptInAndAssignRole = false; // creator opt-in into app and ASA
+let buyToken = false; //creator buy smart ASA using ALGO
+let payMerchant_ = false; // Creator pay a merchant using smart ASA
+let donor_transfer = false; // Transfer from creator to CRI
 
 main();
 
@@ -53,6 +48,7 @@ main();
 /* assign_merch_role();
  */ /* assign_redcross_role();
  */
+
 async function main() {
   if (doStartingTasks) {
     appId = await deploy();
@@ -82,7 +78,6 @@ async function main() {
   }
 
   if (buyToken) {
-    //Buy token
     donor_buy_token();
   }
 
@@ -182,31 +177,12 @@ async function assetCreateMethod() {
     signer: algosdk.makeBasicAccountTransactionSigner(account),
   };
 
-  // Simple call to the `add` method, method_args can be any type but _must_
-  // match those in the method signature of the contract
   atc.addMethodCall({
     method: getMethodByName("asset_create", contract),
     methodArgs: [],
     ...commonParams,
   });
 
-  // This method requires a `transaction` as its second argument. Construct the transaction and pass it in as an argument.
-  // The ATC will handle adding it to the group transaction and setting the reference in the application arguments.
-  /*txn = {
-        txn: new Transaction({ from: acct.addr, to: acct.addr, amount: 10000, ...sp }),
-        signer: algosdk.makeBasicAccountTransactionSigner(acct)
-    }
-    atc.addMethodCall({
-        method: getMethodByName("txntest"), 
-        methodArgs: [ 10000, txn, 1000 ], 
-        ...commonParams
-    }) */
-
-  // Other options:
-  // const txgroup = atc.buildGroup()
-  // const txids = atc.submit(algodClient)
-
-  //TODO sistemare il result perchè non stampa l'assetId
   const result = await atc.execute(client, 2);
   const buffer = result.methodResults[0].rawReturnValue;
 
@@ -217,15 +193,6 @@ async function assetCreateMethod() {
   }
 
   return assetId;
-}
-
-// Utility function to return an ABIMethod by its name
-function getMethodByName(name, contract) {
-  const m = contract.methods.find((mt) => {
-    return mt.name == name;
-  });
-  if (m === undefined) throw Error("Method undefined: " + name);
-  return m;
 }
 
 async function algoTranfer(sender, receiver, amount) {
@@ -280,7 +247,6 @@ async function assetOptIn(sender, assetId) {
   let closeRemainderTo = undefined;
   amount = 0;
 
-  // signing and sending "txn" allows sender to begin accepting asset specified by creator and index
   let opttxn = algosdk.makeAssetTransferTxnWithSuggestedParams(
     sender.addr,
     recipient,
@@ -303,7 +269,6 @@ async function appOptIn(sender, appId) {
   params.fee = 1000;
   params.flatFee = true;
 
-  // signing and sending "txn" allows sender to begin accepting asset specified by creator and index
   let opttxn = algosdk.makeApplicationOptInTxn(sender.addr, params, appId);
 
   let rawSignedTxn = opttxn.signTxn(sender.sk);
@@ -318,14 +283,12 @@ async function assign_donor_role() {
   const sp = await client.getTransactionParams().do();
   sp.fee = 1000;
 
-  // Read in the local contract.json file
   const buff = fs.readFileSync("crt.json");
 
-  // Parse the json file into an object, pass it to create an ABIContract object
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
 
   const commonParams = {
-    appID: appId, //contract.networks[genesis_hash].appID,
+    appID: appId,
     sender: account.addr,
     suggestedParams: sp,
     signer: algosdk.makeBasicAccountTransactionSigner(account),
@@ -349,14 +312,12 @@ async function assign_merch_role() {
   const sp = await client.getTransactionParams().do();
   sp.fee = 1000;
 
-  // Read in the local contract.json file
   const buff = fs.readFileSync("crt.json");
 
-  // Parse the json file into an object, pass it to create an ABIContract object
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
 
   const commonParams = {
-    appID: appId, //contract.networks[genesis_hash].appID,
+    appID: appId,
     sender: account.addr,
     suggestedParams: sp,
     signer: algosdk.makeBasicAccountTransactionSigner(account),
@@ -380,10 +341,7 @@ async function assign_redcross_role() {
   const sp = await client.getTransactionParams().do();
   sp.fee = 1000;
 
-  // Read in the local contract.json file
   const buff = fs.readFileSync("crt.json");
-
-  // Parse the json file into an object, pass it to create an ABIContract object
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
 
   const commonParams = {
@@ -410,11 +368,7 @@ async function donor_buy_token() {
 
   const sp = await client.getTransactionParams().do();
   sp.fee = 1000;
-
-  // Read in the local contract.json file
   const buff = fs.readFileSync("crt.json");
-
-  // Parse the json file into an object, pass it to create an ABIContract object
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
 
   const commonParams = {
@@ -452,12 +406,8 @@ async function pay_merchant() {
   const sp = await client.getTransactionParams().do();
   sp.fee = 1000;
 
-  // Read in the local contract.json file
   const buff = fs.readFileSync("crt.json");
-
-  // Parse the json file into an object, pass it to create an ABIContract object
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
-
   const commonParams = {
     appID: appId,
     sender: account.addr,
@@ -490,12 +440,8 @@ async function donor_transfer_asa() {
   const sp = await client.getTransactionParams().do();
   sp.fee = 1000;
 
-  // Read in the local contract.json file
   const buff = fs.readFileSync("crt.json");
-
-  // Parse the json file into an object, pass it to create an ABIContract object
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
-
   const commonParams = {
     appID: appId,
     sender: account.addr,
@@ -505,7 +451,7 @@ async function donor_transfer_asa() {
 
   atc.addMethodCall({
     method: getMethodByName("donation_transfer", contract),
-    methodArgs: [assetId, 2000, account.addr, merchAccount.addr],
+    methodArgs: [assetId, 2000, account.addr, CriAccount.addr],
     ...commonParams,
   });
 
@@ -513,4 +459,13 @@ async function donor_transfer_asa() {
   for (const idx in result.methodResults) {
     console.log(result.methodResults[idx]);
   }
+}
+
+// Utility function to return an ABIMethod by its name
+function getMethodByName(name, contract) {
+  const m = contract.methods.find((mt) => {
+    return mt.name == name;
+  });
+  if (m === undefined) throw Error("Method undefined: " + name);
+  return m;
 }
