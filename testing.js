@@ -38,7 +38,7 @@ let smartContractAddress =
 let appId = 34;
 let assetId = 37;
 
-// Steps:
+// Steps: set to true one at a time starting from the top
 let createAccountTask = false; //use it to create the starting account for each role
 let doStartingTasks = false; //deploy, fund the contract and asset creation
 let doOptInAndAssignRole = false; // creator opt-in into app and ASA
