@@ -1,6 +1,8 @@
 # Project-RedCrossToken
 
-A new donation system for fully transparent spending of donation money on the Algorand Blockchain
+A new donation system for fully transparent spending of donation money on the Algorand Blockchain.
+
+This project is created only to showcase the concept for this use case, any reference is purely used to give an example.
 
 ## Introduction
 
