@@ -25,7 +25,12 @@ The web page will be structured as follows: registration page, homepage, donatio
 
 ### Future implementation:
 
-Algorand's box storage and contract to contract call functionalities added in the latest AVM versions opened an even further level of control for the ASA we are building. Here is the PoC of how the ASA contract will work once adjusted: - box storage will be used to keep the ID of the items whitelisted for purchase, thus avoiding people spending the ASA on non appropriate products bought at a whitelisted merchant address - the box will hold the merchant address as key and as value the array of items IDs (idealy 8 to 16 byte Literals each) - once initiated the transaction one of the fields of the transaction will hold a byte sequence containing all the IDs of the purchased products, the byte sequence parsed in 8/16 byte elements into an array will be looped to check if each item is contained in the box with the merchant address as key - if this check is passed and all the item are corrected the transaction will go through
+Algorand's box storage and contract to contract call functionalities added in the latest AVM versions opened an even further level of control for the ASA we are building. Here is the PoC of how the ASA contract will work once adjusted:
+
+- box storage will be used to keep the ID of the items whitelisted for purchase, thus avoiding people spending the ASA on non appropriate products bought at a whitelisted merchant address
+- the box will hold the merchant address as key and as value the array of items IDs (idealy 8 to 16 byte Literals each)
+- once initiated the transaction one of the fields of the transaction will hold a byte sequence containing all the IDs of the purchased products, the byte sequence parsed in 8/16 byte elements into an array will be looped to check if each item is contained in the box with the merchant address as key
+- if this check is passed and all the item are corrected the transaction will go through
 
 ## Conclusion
 
