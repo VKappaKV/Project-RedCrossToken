@@ -13,43 +13,58 @@ const client = new algosdk.Algodv2(algodToken, algodServer, algodPort);
 // The accounts below should be generated with the createAccount() function
 
 // Creator account
-const mnenonic = "...";
+const mnenonic =
+  "camp cannon shadow squeeze merry fade bone become alter essence salute tunnel long purpose item search mom upset alpha rude siren run worry abstract settle";
 const account = algosdk.mnemonicToSecretKey(mnenonic);
-const accAdd = "...";
+const accAdd = "J6GY23OMZJCMW5WXRKKZBBINYH244WMOD5DGHE4H6JYUZEYBEBWWVYK3XE";
 
 // Merchant account:
-const merchMnemonic = "...";
+const merchMnemonic =
+  "page opinion sight vote inherit surprise hurry harbor social velvet lounge still luxury urge come general race state busy vocal output never inquiry absent denial";
 const merchAccount = algosdk.mnemonicToSecretKey(merchMnemonic);
-const merchAddr = "...";
+const merchAddr = "5RIR33N7BDZ5EUPNBWPDEAMEXOCLD4QLAIAYEJGRGC6PS2E42OWBOGPP4I";
 
 // CRI account:
-const CriMnemonic = "...";
+const CriMnemonic =
+  "peasant tooth kingdom alert number unhappy purity relax demand uncover special frog peace home face skirt absorb intact yard oppose script road grief ability grow";
 const CriAccount = algosdk.mnemonicToSecretKey(CriMnemonic);
-const CriAddr = "...";
+const CriAddr = "S4HVCB4U4QSA52DFRZN4EL5A6CA3OYNI5AX5H3TKOZK7EIJ7XOAOBG57VA";
 
 // Utility variables
 
 // The following variables have to be changed after the deploy of the contract
 let smartContractAddress =
-  "EXS3TYR5UJFMF2IIKBUFUTRMI7GNHALVRA7WATV2ONN4ROSOD6QDWWA7DM";
-let appId = 16;
-let assetId = 19;
+  "Y5BFRELEVAJKE4F7M2DTJIA2YKQE5RXC6ZOASH2KRNANQLBB32JEVVQLVI";
+let appId = 34;
+let assetId = 37;
 
 // Steps:
+let createAccountTask = false; //use it to create the starting account for each role
 let doStartingTasks = false; //deploy, fund the contract and asset creation
 let doOptInAndAssignRole = false; // creator opt-in into app and ASA
 let buyToken = false; //creator buy smart ASA using ALGO
+let assign_merchant_role = false; //make merchant opt in to app and asset and once opted in assign merchant role
 let payMerchant_ = false; // Creator pay a merchant using smart ASA
 let donor_transfer = false; // Transfer from creator to CRI
 
 main();
 
-/* assetOptIn(merchAccount,19); */
-/* assign_merch_role();
- */ /* assign_redcross_role();
- */
-
 async function main() {
+  if (createAccountTask) {
+    console.log("[Creator account]:");
+    createAccount();
+    console.log("[Merchant account]:");
+    createAccount();
+    console.log("[Red Cross account]:");
+    createAccount();
+  }
+
+  if (assign_merchant_role) {
+    await appOptIn(merchAccount, 34);
+    await assetOptIn(merchAccount, 37);
+    assign_merch_role();
+  }
+
   if (doStartingTasks) {
     appId = await deploy();
 

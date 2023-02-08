@@ -1,0 +1,1431 @@
+#pragma version 6
+txn NumAppArgs
+int 0
+==
+bnz main_l36
+txna ApplicationArgs 0
+method "test()void"
+==
+bnz main_l35
+txna ApplicationArgs 0
+method "asset_create()uint64"
+==
+bnz main_l34
+txna ApplicationArgs 0
+method "asset_config(asset,uint64,uint32,bool,string,string,string,address,address,address,address)void"
+==
+bnz main_l33
+txna ApplicationArgs 0
+method "donor_buy_token(pay,asset)void"
+==
+bnz main_l32
+txna ApplicationArgs 0
+method "pay_merchant(asset,uint64,account,account)void"
+==
+bnz main_l31
+txna ApplicationArgs 0
+method "donation_transfer(asset,uint64,account,account)void"
+==
+bnz main_l30
+txna ApplicationArgs 0
+method "asset_app_closeout(asset,account)void"
+==
+bnz main_l29
+txna ApplicationArgs 0
+method "asset_destroy(asset)void"
+==
+bnz main_l28
+txna ApplicationArgs 0
+method "set_redcross_role(account)void"
+==
+bnz main_l27
+txna ApplicationArgs 0
+method "set_donor_role(account,bool)void"
+==
+bnz main_l26
+txna ApplicationArgs 0
+method "set_merchant_role(account,bool)void"
+==
+bnz main_l25
+txna ApplicationArgs 0
+method "get_is_worker(address)bool"
+==
+bnz main_l24
+txna ApplicationArgs 0
+method "get_is_donor(address)bool"
+==
+bnz main_l23
+txna ApplicationArgs 0
+method "get_is_merchant(address)bool"
+==
+bnz main_l22
+txna ApplicationArgs 0
+method "get_circulating_supply(asset)uint64"
+==
+bnz main_l21
+txna ApplicationArgs 0
+method "get_optin_min_balance(asset)uint64"
+==
+bnz main_l20
+txna ApplicationArgs 0
+method "get_asset_config(asset)(uint64,uint32,bool,string,string,string,address,address,address,address)"
+==
+bnz main_l19
+err
+main_l19:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+callsub getassetconfig_27
+store 34
+byte 0x151f7c75
+load 34
+concat
+log
+int 1
+return
+main_l20:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+callsub getoptinminbalance_26
+store 33
+byte 0x151f7c75
+load 33
+itob
+concat
+log
+int 1
+return
+main_l21:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+callsub getcirculatingsupply_25
+store 31
+byte 0x151f7c75
+load 31
+itob
+concat
+log
+int 1
+return
+main_l22:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+callsub getismerchant_24
+store 30
+byte 0x151f7c75
+byte 0x00
+int 0
+load 30
+setbit
+concat
+log
+int 1
+return
+main_l23:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+callsub getisdonor_23
+store 29
+byte 0x151f7c75
+byte 0x00
+int 0
+load 29
+setbit
+concat
+log
+int 1
+return
+main_l24:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+callsub getisworker_22
+store 28
+byte 0x151f7c75
+byte 0x00
+int 0
+load 28
+setbit
+concat
+log
+int 1
+return
+main_l25:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+store 26
+txna ApplicationArgs 2
+int 0
+int 8
+*
+getbit
+store 27
+load 26
+load 27
+callsub setmerchantrole_21
+int 1
+return
+main_l26:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+store 24
+txna ApplicationArgs 2
+int 0
+int 8
+*
+getbit
+store 25
+load 24
+load 25
+callsub setdonorrole_20
+int 1
+return
+main_l27:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+callsub setredcrossrole_19
+int 1
+return
+main_l28:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+callsub assetdestroy_18
+int 1
+return
+main_l29:
+txn OnCompletion
+int CloseOut
+==
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+store 22
+txna ApplicationArgs 2
+int 0
+getbyte
+store 23
+load 22
+load 23
+callsub assetappcloseout_17
+int 1
+return
+main_l30:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+store 18
+txna ApplicationArgs 2
+btoi
+store 19
+txna ApplicationArgs 3
+int 0
+getbyte
+store 20
+txna ApplicationArgs 4
+int 0
+getbyte
+store 21
+load 18
+load 19
+load 20
+load 21
+callsub donationtransfer_16
+int 1
+return
+main_l31:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+store 14
+txna ApplicationArgs 2
+btoi
+store 15
+txna ApplicationArgs 3
+int 0
+getbyte
+store 16
+txna ApplicationArgs 4
+int 0
+getbyte
+store 17
+load 14
+load 15
+load 16
+load 17
+callsub paymerchant_15
+int 1
+return
+main_l32:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+store 13
+txn GroupIndex
+int 1
+-
+store 12
+load 12
+gtxns TypeEnum
+int pay
+==
+assert
+load 12
+load 13
+callsub donorbuytoken_14
+int 1
+return
+main_l33:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+txna ApplicationArgs 1
+int 0
+getbyte
+store 1
+txna ApplicationArgs 2
+btoi
+store 2
+txna ApplicationArgs 3
+int 0
+extract_uint32
+store 3
+txna ApplicationArgs 4
+int 0
+int 8
+*
+getbit
+store 4
+txna ApplicationArgs 5
+store 5
+txna ApplicationArgs 6
+store 6
+txna ApplicationArgs 7
+store 7
+txna ApplicationArgs 8
+store 8
+txna ApplicationArgs 9
+store 9
+txna ApplicationArgs 10
+store 10
+txna ApplicationArgs 11
+store 11
+load 1
+load 2
+load 3
+load 4
+load 5
+load 6
+load 7
+load 8
+load 9
+load 10
+load 11
+callsub assetconfig_13
+int 1
+return
+main_l34:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+callsub assetcreate_12
+store 0
+byte 0x151f7c75
+load 0
+itob
+concat
+log
+int 1
+return
+main_l35:
+txn OnCompletion
+int NoOp
+==
+txn ApplicationID
+int 0
+!=
+&&
+assert
+callsub test_11
+int 1
+return
+main_l36:
+txn OnCompletion
+int NoOp
+==
+bnz main_l44
+txn OnCompletion
+int OptIn
+==
+bnz main_l43
+txn OnCompletion
+int UpdateApplication
+==
+bnz main_l42
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l41
+err
+main_l41:
+int 1
+return
+main_l42:
+int 1
+return
+main_l43:
+int 1
+return
+main_l44:
+txn ApplicationID
+int 0
+==
+assert
+callsub assetappcreate_10
+int 1
+return
+
+// init_global_state
+initglobalstate_0:
+byte "smart_asa_id"
+int 0
+app_global_put
+byte "total"
+int 0
+app_global_put
+byte "decimals"
+int 0
+app_global_put
+byte "default_frozen"
+int 0
+app_global_put
+byte "unit_name"
+byte ""
+app_global_put
+byte "name"
+byte ""
+app_global_put
+byte "url"
+byte ""
+app_global_put
+byte "manager_addr"
+global ZeroAddress
+app_global_put
+byte "reserve_addr"
+global ZeroAddress
+app_global_put
+byte "freeze_addr"
+global ZeroAddress
+app_global_put
+byte "clawback_addr"
+global ZeroAddress
+app_global_put
+retsub
+
+// digit_to_ascii
+digittoascii_1:
+store 50
+byte "0123456789"
+load 50
+int 1
+extract3
+retsub
+
+// itoa
+itoa_2:
+store 49
+load 49
+int 0
+==
+bnz itoa_2_l5
+load 49
+int 10
+/
+int 0
+>
+bnz itoa_2_l4
+byte ""
+itoa_2_l3:
+load 49
+int 10
+%
+callsub digittoascii_1
+concat
+b itoa_2_l6
+itoa_2_l4:
+load 49
+int 10
+/
+load 49
+swap
+callsub itoa_2
+swap
+store 49
+b itoa_2_l3
+itoa_2_l5:
+byte "0"
+itoa_2_l6:
+retsub
+
+// underlying_asa_create_inner_tx
+underlyingasacreateinnertx_3:
+itxn_begin
+int 0
+itxn_field Fee
+int acfg
+itxn_field TypeEnum
+int 18446744073709551615
+itxn_field ConfigAssetTotal
+int 0
+itxn_field ConfigAssetDecimals
+int 1
+itxn_field ConfigAssetDefaultFrozen
+byte "CRI"
+itxn_field ConfigAssetUnitName
+byte "RED_CROSS"
+itxn_field ConfigAssetName
+byte "smart-asa-app-id:"
+global CurrentApplicationID
+callsub itoa_2
+concat
+itxn_field ConfigAssetURL
+global CreatorAddress
+itxn_field ConfigAssetManager
+global CurrentApplicationAddress
+itxn_field ConfigAssetReserve
+global CreatorAddress
+itxn_field ConfigAssetFreeze
+global CurrentApplicationAddress
+itxn_field ConfigAssetClawback
+itxn_submit
+itxn CreatedAssetID
+retsub
+
+// smart_asa_transfer_inner_txn
+smartasatransferinnertxn_4:
+store 70
+store 69
+store 68
+store 67
+itxn_begin
+int 0
+itxn_field Fee
+int axfer
+itxn_field TypeEnum
+load 67
+itxn_field XferAsset
+load 68
+itxn_field AssetAmount
+load 69
+itxn_field AssetSender
+load 70
+itxn_field AssetReceiver
+itxn_submit
+retsub
+
+// algo_transfer_inner_txn
+algotransferinnertxn_5:
+store 77
+store 76
+store 75
+itxn_begin
+int 0
+itxn_field Fee
+int pay
+itxn_field TypeEnum
+load 75
+itxn_field Amount
+load 76
+itxn_field Sender
+load 77
+itxn_field Receiver
+itxn_submit
+retsub
+
+// smart_asa_destroy_inner_txn
+smartasadestroyinnertxn_6:
+store 89
+itxn_begin
+int 0
+itxn_field Fee
+int acfg
+itxn_field TypeEnum
+load 89
+itxn_field ConfigAsset
+itxn_submit
+retsub
+
+// is_valid_address_bytes_length
+isvalidaddressbyteslength_7:
+len
+int 32
+==
+assert
+retsub
+
+// circulating_supply
+circulatingsupply_8:
+store 62
+global CurrentApplicationAddress
+load 62
+asset_holding_get AssetBalance
+store 64
+store 63
+int 18446744073709551615
+load 63
+-
+retsub
+
+// getter_preconditions
+getterpreconditions_9:
+store 94
+byte "smart_asa_id"
+app_global_get
+assert
+byte "smart_asa_id"
+app_global_get
+load 94
+==
+assert
+retsub
+
+// asset_app_create
+assetappcreate_10:
+txn GlobalNumUint
+int 4
+==
+assert
+txn GlobalNumByteSlice
+int 7
+==
+assert
+txn LocalNumUint
+int 4
+==
+assert
+txn LocalNumByteSlice
+int 0
+==
+assert
+callsub initglobalstate_0
+int 1
+return
+
+// test
+test_11:
+int 1
+return
+
+// asset_create
+assetcreate_12:
+txn Sender
+global CreatorAddress
+==
+assert
+byte "smart_asa_id"
+app_global_get
+!
+assert
+byte "smart_asa_id"
+callsub underlyingasacreateinnertx_3
+app_global_put
+byte "total"
+int 18446744073709551615
+app_global_put
+byte "decimals"
+int 0
+app_global_put
+byte "default_frozen"
+int 1
+app_global_put
+byte "unit_name"
+byte "CRI"
+app_global_put
+byte "name"
+byte "RED_CROSS"
+app_global_put
+byte "url"
+byte "smart-asa-app-id:"
+global CurrentApplicationID
+callsub itoa_2
+concat
+app_global_put
+byte "manager_addr"
+global CreatorAddress
+app_global_put
+byte "reserve_addr"
+global CurrentApplicationAddress
+app_global_put
+byte "freeze_addr"
+global CreatorAddress
+app_global_put
+byte "clawback_addr"
+global CurrentApplicationAddress
+app_global_put
+byte "smart_asa_id"
+app_global_get
+retsub
+
+// asset_config
+assetconfig_13:
+store 61
+store 60
+store 59
+store 58
+store 57
+store 56
+store 55
+store 54
+store 53
+store 52
+store 51
+byte "smart_asa_id"
+app_global_get
+assert
+byte "smart_asa_id"
+app_global_get
+load 51
+txnas Assets
+==
+assert
+load 58
+callsub isvalidaddressbyteslength_7
+load 59
+callsub isvalidaddressbyteslength_7
+load 60
+callsub isvalidaddressbyteslength_7
+load 61
+callsub isvalidaddressbyteslength_7
+txn Sender
+byte "manager_addr"
+app_global_get
+==
+assert
+byte "reserve_addr"
+app_global_get
+load 59
+!=
+bnz assetconfig_13_l5
+assetconfig_13_l1:
+byte "freeze_addr"
+app_global_get
+load 60
+!=
+bnz assetconfig_13_l4
+assetconfig_13_l2:
+byte "clawback_addr"
+app_global_get
+load 61
+!=
+bz assetconfig_13_l6
+byte "clawback_addr"
+app_global_get
+global ZeroAddress
+!=
+assert
+b assetconfig_13_l6
+assetconfig_13_l4:
+byte "freeze_addr"
+app_global_get
+global ZeroAddress
+!=
+assert
+b assetconfig_13_l2
+assetconfig_13_l5:
+byte "reserve_addr"
+app_global_get
+global ZeroAddress
+!=
+assert
+b assetconfig_13_l1
+assetconfig_13_l6:
+load 52
+byte "smart_asa_id"
+app_global_get
+callsub circulatingsupply_8
+>=
+assert
+byte "total"
+load 52
+app_global_put
+byte "decimals"
+load 53
+app_global_put
+byte "default_frozen"
+load 54
+app_global_put
+byte "unit_name"
+load 55
+extract 2 0
+app_global_put
+byte "name"
+load 56
+extract 2 0
+app_global_put
+byte "url"
+load 57
+extract 2 0
+app_global_put
+byte "manager_addr"
+load 58
+app_global_put
+byte "reserve_addr"
+load 59
+app_global_put
+byte "freeze_addr"
+load 60
+app_global_put
+byte "clawback_addr"
+load 61
+app_global_put
+retsub
+
+// donor_buy_token
+donorbuytoken_14:
+store 66
+store 65
+load 66
+txnas Assets
+byte "smart_asa_id"
+app_global_get
+==
+assert
+load 65
+gtxns Sender
+txn Sender
+==
+assert
+load 65
+gtxns Receiver
+global CurrentApplicationAddress
+==
+assert
+load 65
+gtxns Sender
+byte "donor_role"
+app_local_get
+int 1
+==
+assert
+byte "smart_asa_id"
+app_global_get
+callsub circulatingsupply_8
+load 65
+gtxns Amount
++
+byte "total"
+app_global_get
+<=
+assert
+byte "smart_asa_id"
+app_global_get
+load 65
+gtxns Amount
+global CurrentApplicationAddress
+txn Sender
+callsub smartasatransferinnertxn_4
+retsub
+
+// pay_merchant
+paymerchant_15:
+store 74
+store 73
+store 72
+store 71
+load 73
+txnas Accounts
+byte "redcross_role"
+app_local_get
+int 1
+==
+load 73
+txnas Accounts
+byte "donor_role"
+app_local_get
+int 1
+==
+||
+assert
+load 74
+txnas Accounts
+byte "merchant_role"
+app_local_get
+int 1
+==
+assert
+load 71
+txnas Assets
+byte "smart_asa_id"
+app_global_get
+==
+assert
+load 73
+txnas Accounts
+txn Sender
+==
+assert
+byte "smart_asa_id"
+app_global_get
+load 72
+load 73
+txnas Accounts
+global CurrentApplicationAddress
+callsub smartasatransferinnertxn_4
+load 72
+global CurrentApplicationAddress
+load 74
+txnas Accounts
+callsub algotransferinnertxn_5
+retsub
+
+// donation_transfer
+donationtransfer_16:
+store 81
+store 80
+store 79
+store 78
+load 80
+txnas Accounts
+byte "donor_role"
+app_local_get
+int 1
+==
+assert
+load 78
+txnas Assets
+byte "smart_asa_id"
+app_global_get
+==
+assert
+load 81
+txnas Accounts
+byte "redcross_role"
+app_local_get
+int 1
+==
+assert
+load 80
+txnas Accounts
+txn Sender
+==
+assert
+byte "smart_asa_id"
+app_global_get
+load 79
+load 80
+txnas Accounts
+load 81
+txnas Accounts
+callsub smartasatransferinnertxn_4
+retsub
+
+// asset_app_closeout
+assetappcloseout_17:
+store 83
+store 82
+load 83
+txnas Accounts
+callsub isvalidaddressbyteslength_7
+txn Sender
+byte "smart_asa_id"
+app_local_get
+load 82
+txnas Assets
+==
+assert
+global GroupSize
+txn GroupIndex
+int 1
++
+>
+assert
+txn GroupIndex
+int 1
++
+gtxns TypeEnum
+int axfer
+==
+assert
+txn GroupIndex
+int 1
++
+gtxns XferAsset
+load 82
+txnas Assets
+==
+assert
+txn GroupIndex
+int 1
++
+gtxns Sender
+txn Sender
+==
+assert
+txn GroupIndex
+int 1
++
+gtxns AssetAmount
+int 0
+==
+assert
+txn GroupIndex
+int 1
++
+gtxns AssetCloseTo
+global CurrentApplicationAddress
+==
+assert
+load 82
+txnas Assets
+asset_params_get AssetCreator
+store 87
+store 86
+load 87
+bz assetappcloseout_17_l4
+byte "smart_asa_id"
+app_global_get
+load 82
+txnas Assets
+==
+assert
+load 83
+txnas Accounts
+global CurrentApplicationAddress
+!=
+bnz assetappcloseout_17_l3
+assetappcloseout_17_l2:
+txn Sender
+load 82
+txnas Assets
+asset_holding_get AssetBalance
+store 85
+store 84
+load 82
+txnas Assets
+load 84
+txn Sender
+load 83
+txnas Accounts
+callsub smartasatransferinnertxn_4
+b assetappcloseout_17_l4
+assetappcloseout_17_l3:
+byte "smart_asa_id"
+app_global_get
+load 83
+txnas Accounts
+byte "smart_asa_id"
+app_local_get
+==
+assert
+b assetappcloseout_17_l2
+assetappcloseout_17_l4:
+int 1
+return
+
+// asset_destroy
+assetdestroy_18:
+store 88
+byte "smart_asa_id"
+app_global_get
+assert
+byte "smart_asa_id"
+app_global_get
+load 88
+txnas Assets
+==
+assert
+txn Sender
+byte "manager_addr"
+app_global_get
+==
+assert
+load 88
+txnas Assets
+callsub smartasadestroyinnertxn_6
+callsub initglobalstate_0
+retsub
+
+// set_redcross_role
+setredcrossrole_19:
+txnas Accounts
+byte "redcross_role"
+int 1
+app_local_put
+retsub
+
+// set_donor_role
+setdonorrole_20:
+store 91
+store 90
+txn Sender
+byte "manager_addr"
+app_global_get
+==
+assert
+load 91
+int 1
+==
+bnz setdonorrole_20_l2
+load 90
+txnas Accounts
+byte "donor_role"
+int 0
+app_local_put
+b setdonorrole_20_l3
+setdonorrole_20_l2:
+load 90
+txnas Accounts
+byte "donor_role"
+int 1
+app_local_put
+setdonorrole_20_l3:
+retsub
+
+// set_merchant_role
+setmerchantrole_21:
+store 93
+store 92
+txn Sender
+byte "manager_addr"
+app_global_get
+==
+assert
+load 93
+int 1
+==
+bnz setmerchantrole_21_l2
+load 92
+txnas Accounts
+byte "merchant_role"
+int 0
+app_local_put
+b setmerchantrole_21_l3
+setmerchantrole_21_l2:
+load 92
+txnas Accounts
+byte "merchant_role"
+int 1
+app_local_put
+setmerchantrole_21_l3:
+retsub
+
+// get_is_worker
+getisworker_22:
+byte "redcross_role"
+app_local_get
+int 1
+==
+!
+!
+retsub
+
+// get_is_donor
+getisdonor_23:
+byte "donor_role"
+app_local_get
+int 1
+==
+!
+!
+retsub
+
+// get_is_merchant
+getismerchant_24:
+byte "merchant_role"
+app_local_get
+int 1
+==
+!
+!
+retsub
+
+// get_circulating_supply
+getcirculatingsupply_25:
+store 32
+load 32
+txnas Assets
+callsub getterpreconditions_9
+load 32
+txnas Assets
+callsub circulatingsupply_8
+retsub
+
+// get_optin_min_balance
+getoptinminbalance_26:
+txnas Assets
+callsub getterpreconditions_9
+int 214000
+retsub
+
+// get_asset_config
+getassetconfig_27:
+txnas Assets
+callsub getterpreconditions_9
+byte "total"
+app_global_get
+store 35
+byte "decimals"
+app_global_get
+store 36
+load 36
+int 4294967296
+<
+assert
+byte "default_frozen"
+app_global_get
+!
+!
+store 37
+byte "unit_name"
+app_global_get
+store 38
+load 38
+len
+itob
+extract 6 0
+load 38
+concat
+store 38
+byte "name"
+app_global_get
+store 39
+load 39
+len
+itob
+extract 6 0
+load 39
+concat
+store 39
+byte "url"
+app_global_get
+store 40
+load 40
+len
+itob
+extract 6 0
+load 40
+concat
+store 40
+byte "manager_addr"
+app_global_get
+store 41
+load 41
+len
+int 32
+==
+assert
+byte "reserve_addr"
+app_global_get
+store 42
+load 42
+len
+int 32
+==
+assert
+byte "freeze_addr"
+app_global_get
+store 43
+load 43
+len
+int 32
+==
+assert
+byte "clawback_addr"
+app_global_get
+store 44
+load 44
+len
+int 32
+==
+assert
+load 35
+itob
+load 36
+itob
+extract 4 0
+concat
+byte 0x00
+int 0
+load 37
+setbit
+concat
+load 38
+store 48
+load 48
+store 47
+int 147
+store 45
+load 45
+load 48
+len
++
+store 46
+load 46
+int 65536
+<
+assert
+load 45
+itob
+extract 6 0
+concat
+load 39
+store 48
+load 47
+load 48
+concat
+store 47
+load 46
+store 45
+load 45
+load 48
+len
++
+store 46
+load 46
+int 65536
+<
+assert
+load 45
+itob
+extract 6 0
+concat
+load 40
+store 48
+load 47
+load 48
+concat
+store 47
+load 46
+store 45
+load 45
+itob
+extract 6 0
+concat
+load 41
+concat
+load 42
+concat
+load 43
+concat
+load 44
+concat
+load 47
+concat
+retsub
