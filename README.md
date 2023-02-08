@@ -4,6 +4,9 @@ A new donation system for fully transparent spending of donation money on the Al
 
 This project is created only to showcase the concept for this use case, any reference is purely used to give an example.
 
+### GHH3 work:
+During the GHH3 we worked to improve this project, we wrote the contract and its PoC previously but it wasn't ready for deployment, so we have worked to test it out and adjust the contract. Created testing.js to interact with the contract and prepared the PoC for the box storage implementation to further extend the functionalities for this project, unluckily we weren't able to finish the contract for the boxes in time. The files for the box storage will be added to the repository once they are ready and deployed, but won't be part of our submission for the Algorand GHH3.
+
 ## Introduction
 
 Voluntary societies are those associations that carry out non-profit activities with social, civil or cultural aims, and exclusively for the purpose of social solidarity. Often these societies propose fundraising campaigns, in which citizens can contribute by paying a certain amount of money. The money raised in this way is supposed to be used for charitable purposes associated with the company's field of work. However, these collected funds are not always used for their proper purpose and there is often no way to even verify how they were spent. The lack of transparency in this can create unease for contributors due to the lack of certainty of how their contributions are being used by the charitable company. This can also be a cause of less participation and contribution by citizens to this type of activity.
