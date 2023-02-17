@@ -38,15 +38,11 @@ let smartContractAddress =
 let appId = 34;
 let assetId = 37;
 
-//path to artifacts:
-path_json =
-  "C:\\Users\\Jacopo\\Documents\\GitHub\\Project-RedCrossToken\\Contract\\artifacts\\crt.json";
-
 // Steps: set to true one at a time starting from the top
 let createAccountTask = false; //use it to create the starting account for each role
 let doStartingTasks = false; //deploy, fund the contract and asset creation
 let doOptInAndAssignRole = false; // creator opt-in into app and ASA
-let buyToken = true; //creator buy smart ASA using ALGO
+let buyToken = false; //creator buy smart ASA using ALGO
 let assign_merchant_role = false; //make merchant opt in to app and asset and once opted in assign merchant role
 let payMerchant_ = false; // Creator pay a merchant using smart ASA
 let donor_transfer = false; // Transfer from creator to CRI
@@ -116,12 +112,8 @@ async function deploy() {
   // declare onComplete as NoOp
   onComplete = algosdk.OnApplicationComplete.NoOpOC;
 
-  const approvalProgram = fs
-    .readFileSync("./artifacts/crt_approval.teal")
-    .toString();
-  const clearStateProgram = fs
-    .readFileSync("./artifacts/crt_clearstate.teal")
-    .toString();
+  const approvalProgram = fs.readFileSync("crt_approval.teal").toString();
+  const clearStateProgram = fs.readFileSync("crt_clearstate.teal").toString();
 
   const compiledApprovalProgram = await client.compile(approvalProgram).do();
   const compiledClearState = await client.compile(clearStateProgram).do();
@@ -185,11 +177,10 @@ async function assetCreateMethod() {
   const atc = new algosdk.AtomicTransactionComposer();
 
   const sp = await client.getTransactionParams().do();
-  sp.flatFee = true;
   sp.fee = 1000;
 
   // Read in the local contract.json file
-  const buff = fs.readFileSync(path_json);
+  const buff = fs.readFileSync("crt.json");
 
   // Parse the json file into an object, pass it to create an ABIContract object
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
@@ -305,10 +296,9 @@ async function assign_donor_role() {
   const atc = new algosdk.AtomicTransactionComposer();
 
   const sp = await client.getTransactionParams().do();
-  sp.flatFee = true;
   sp.fee = 1000;
 
-  const buff = fs.readFileSync(path_json);
+  const buff = fs.readFileSync("crt.json");
 
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
 
@@ -335,10 +325,9 @@ async function assign_merch_role() {
   const atc = new algosdk.AtomicTransactionComposer();
 
   const sp = await client.getTransactionParams().do();
-  sp.flatFee = true;
   sp.fee = 1000;
 
-  const buff = fs.readFileSync(path_json);
+  const buff = fs.readFileSync("crt.json");
 
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
 
@@ -365,10 +354,9 @@ async function assign_redcross_role() {
   const atc = new algosdk.AtomicTransactionComposer();
 
   const sp = await client.getTransactionParams().do();
-  sp.flatFee = true;
   sp.fee = 1000;
 
-  const buff = fs.readFileSync(path_json);
+  const buff = fs.readFileSync("crt.json");
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
 
   const commonParams = {
@@ -394,9 +382,8 @@ async function donor_buy_token() {
   const atc = new algosdk.AtomicTransactionComposer();
 
   const sp = await client.getTransactionParams().do();
-  sp.flatFee = true;
-  sp.fee = 2000;
-  const buff = fs.readFileSync(path_json);
+  sp.fee = 1000;
+  const buff = fs.readFileSync("crt.json");
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
 
   const commonParams = {
@@ -432,10 +419,9 @@ async function pay_merchant() {
   const atc = new algosdk.AtomicTransactionComposer();
 
   const sp = await client.getTransactionParams().do();
-  sp.flatFee = true;
   sp.fee = 1000;
 
-  const buff = fs.readFileSync(path_json);
+  const buff = fs.readFileSync("crt.json");
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
   const commonParams = {
     appID: appId,
@@ -467,10 +453,9 @@ async function donor_transfer_asa() {
   const atc = new algosdk.AtomicTransactionComposer();
 
   const sp = await client.getTransactionParams().do();
-  sp.flatFee = true;
   sp.fee = 1000;
 
-  const buff = fs.readFileSync(path_json);
+  const buff = fs.readFileSync("crt.json");
   const contract = new algosdk.ABIContract(JSON.parse(buff.toString()));
   const commonParams = {
     appID: appId,
